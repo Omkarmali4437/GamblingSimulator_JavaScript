@@ -10,9 +10,11 @@ console.log("Bet is: ",bet);
 
 var random = Math.floor(Math.random() * 2);
 
-if(random == WON){
-    stake += 1;
-}else{ 
-    stake -= 1;
+while( stake > 50 && stake < 150){
+    if(random == WON){
+        stake += 1;
+    }else{ 
+        stake -= 1;
+    }
 }
 console.log(stake);
