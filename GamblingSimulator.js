@@ -1,5 +1,4 @@
 const WON = 1;
-const LOST = 0;
 var stake = 100;
 var bet = 1;
 var total_won = 0;
@@ -14,39 +13,39 @@ var max_lost = new Map();
 
 console.log("Welcome to Gambling Simulator");
 
-console.log("Starting Stake for every day is: ",stake);
-console.log("Bet is: ",bet);
+console.log("Starting Stake for every day is: ", stake);
+console.log("Bet is: ", bet);
 
-function startgame(){
- 
-    for(let days = 1 ; days <= 20 ; days++){
+function startgame() {
+
+    for (let days = 1; days <= 20; days++) {
         stake = 100;
         bets_lost = 0;
         bets_won = 0;
-        while( stake > 50 && stake < 150){
+        while (stake > 50 && stake < 150) {
             var random = Math.floor(Math.random() * 2);
-            if(random == WON){
+            if (random == WON) {
                 stake += bet;
                 bets_won += 1;
                 total_won += stake;
-            }else{ 
+            } else {
                 stake -= bet;
                 bets_lost += 1;
                 total_lost += stake;
             }
-            month.set(days,stake);
-            max_won.set(days,bets_won);
-            max_lost.set(days,bets_lost);
+            month.set(days, stake);
+            max_won.set(days, bets_won);
+            max_lost.set(days, bets_lost);
         }
     }
 
-    console.log("Total Amount Won: ",total_won);
-    console.log("Total Amount Lost: ",total_lost);
-        
-    if(total_won > total_lost){
-        console.log("You won  by: "+(total_won-total_lost));
-    }else{
-        console.log("You lost by: "+(total_lost-total_won));
+    console.log("Total Amount Won: ", total_won);
+    console.log("Total Amount Lost: ", total_lost);
+
+    if (total_won > total_lost) {
+        console.log("You won  by: " + (total_won - total_lost));
+    } else {
+        console.log("You lost by: " + (total_lost - total_won));
     }
 
     getDayWonandLost();
@@ -54,55 +53,46 @@ function startgame(){
     getunlukiestday();
 }
 
-function getDayWonandLost(){
-    
-    for(let k of month.keys()){
-        if(month.get(k) == 150){
+function getDayWonandLost() {
+
+    for (let k of month.keys()) {
+        if (month.get(k) == 150) {
             won.push(k);
         }
     }
 
-    for(let l of month.keys()){
-        if(month.get(l) == 50){
+    for (let l of month.keys()) {
+        if (month.get(l) == 50) {
             lost.push(l);
         }
     }
 
-    console.log("Days won are: "+won);
-    console.log("Days lost are: "+lost);
+    console.log("Days won are: " + won);
+    console.log("Days lost are: " + lost);
 }
 
-function getluckiestday(){
+function getluckiestday() {
     
-    var biggest = max_won.get(1);
-    for(let j of max_won.values()){
-        if(j > biggest){
-            biggest = j;
-        }
-    }
-    
-    for(let k of max_won.keys()){
-        if(max_won.get(k) == biggest){
-            console.log("The Luckiest Day is:",k);
-        }
+    let arr = [...max_won.values()];
+
+    let sortedarr = arr.sort((a, b) => b - a );
+
+    for ([key, values] of max_won) {
+        if (sortedarr[0] == values)
+            console.log("The luckiest day is: ",key);
     }
 }
 
-function getunlukiestday(){
+function getunlukiestday() {
 
-    var smallest = max_lost.get(1);
-    for(let f of max_lost.values()){
-        if(f < smallest){
-            smallest = f;
-        }
-    }
+    let arr = [...max_lost.values()];
 
-    for(let l of max_lost.keys()){
-        if(max_lost.get(l) == smallest){
-            console.log("The Unluckiest Day is:",l);
-        }
+    let sortedarr = arr.sort((a, b) => a - b);
+
+    for ([key, values] of max_lost) {
+        if (sortedarr[0] == values)
+            console.log("The unluckiest day is: ",key);
     }
-    
 }
 
 startgame();
@@ -110,8 +100,8 @@ startgame();
 var string = require("readline-sync");
 var answer = string.question("Do you want to play again: ");
 
-if(answer == "yes"){
+if (answer == "yes" || answer == "y") {
     startgame();
-}else{
+} else {
     console.log("Thank you for playing")
 }
